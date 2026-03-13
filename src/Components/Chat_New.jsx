@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-const API_URL = "api/v1";
+const API_URL = "/api/v1";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);

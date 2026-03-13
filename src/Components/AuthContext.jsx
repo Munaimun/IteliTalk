@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 // Define the API base URL
-const API_URL = "api/v1";
+const API_URL = "/api/v1";
 
 // Create the AuthContext
 const AuthContext = createContext();
@@ -44,6 +44,9 @@ export const AuthProvider = ({ children }) => {
       } else if (user.role === "Admin") {
         localStorage.setItem("adminUser", JSON.stringify(user));
         navigate("/admin");
+      } else if (user.role === "Teacher") {
+        localStorage.setItem("teacherUser", JSON.stringify(user));
+        navigate("/teacher");
       }
 
       // Update authentication state
@@ -60,6 +63,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("studentUser");
     localStorage.removeItem("adminUser");
+    localStorage.removeItem("teacherUser");
 
     // Update authentication state
     setIsAuthenticated(false);

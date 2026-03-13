@@ -7,11 +7,17 @@ import StudentUi from "../Components/StudentUi";
 import SignUp from "../Components/SignUp";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import TeacherRoute from "./TeacherRoute";
+import AuthRoute from "./AuthRoute";
 import LogoutRoute from "./LogoutRoute";
 import LoginRoute from "./LoginRoute";
 import UserDetail from "../Components/UserDetail";
-import AdminSignUp from "../Components/AdminSignUp";
+import TeacherSignUp from "../Components/TeacherSignUp";
 import EditUser from "../Components/EditUser";
+import ChangePassword from "../Components/ChangePassword";
+import PDFUpload from "../Components/PDFUpload";
+import StudentProfile from "../Components/StudentProfile";
+import TeacherDashboard from "../Components/TeacherDashboard";
 
 // Define the router configuration
 export const router = createBrowserRouter([
@@ -49,11 +55,35 @@ export const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: (
+          <AdminRoute>
+            <SignUp />
+          </AdminRoute>
+        ),
       },
       {
         path: "/signupadmin",
-        element: <AdminSignUp />,
+        element: (
+          <AdminRoute>
+            <TeacherSignUp />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/teacher",
+        element: (
+          <TeacherRoute>
+            <TeacherDashboard />
+          </TeacherRoute>
+        ),
+      },
+      {
+        path: "/teacher/signup",
+        element: (
+          <TeacherRoute>
+            <TeacherSignUp />
+          </TeacherRoute>
+        ),
       },
       {
         path: "/user/:id",
@@ -68,6 +98,30 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <EditUser />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <StudentProfile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/change-password",
+        element: (
+          <AuthRoute>
+            <ChangePassword />
+          </AuthRoute>
+        ),
+      },
+      {
+        path: "/admin/upload",
+        element: (
+          <AdminRoute>
+            <PDFUpload />
           </AdminRoute>
         ),
       },

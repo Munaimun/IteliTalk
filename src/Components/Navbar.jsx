@@ -42,8 +42,18 @@ const Navbar = ({
   const getUserName = () => {
     const studentUser = JSON.parse(localStorage.getItem("studentUser") || "{}");
     const adminUser = JSON.parse(localStorage.getItem("adminUser") || "{}");
-    return studentUser.name || adminUser.name || "User";
+    const teacherUser = JSON.parse(localStorage.getItem("teacherUser") || "{}");
+    return studentUser.name || adminUser.name || teacherUser.name || "User";
   };
+
+  const getUserEmail = () => {
+    const studentUser = JSON.parse(localStorage.getItem("studentUser") || "{}");
+    const adminUser = JSON.parse(localStorage.getItem("adminUser") || "{}");
+    const teacherUser = JSON.parse(localStorage.getItem("teacherUser") || "{}");
+    return studentUser.email || adminUser.email || teacherUser.email || "";
+  };
+
+  const isTeacher = localStorage.getItem("teacherUser") !== null;
 
   const isOnGuestPage = location.pathname === "/chat";
   const effectiveIsAuthenticated =
@@ -95,17 +105,23 @@ const Navbar = ({
                       <p className="text-sm font-medium leading-none">
                         {getUserName()}
                       </p>
-                      <p className="text-xs text-[#a78bfa]">user@example.com</p>
+                      <p className="text-xs text-[#a78bfa]">{getUserEmail()}</p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-[#2c2c3a]" />
-                  <DropdownMenuItem className="hover:bg-[#2c2c3a]">
-                    <User className="mr-2 h-4 w-4 text-[#a78bfa]" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-[#2c2c3a]">
-                    <Settings className="mr-2 h-4 w-4 text-[#a78bfa]" />
-                    <span>Settings</span>
+                  {!isTeacher && (
+                    <DropdownMenuItem asChild className="hover:bg-[#2c2c3a] cursor-pointer">
+                      <Link to="/profile" className="flex items-center w-full">
+                        <User className="mr-2 h-4 w-4 text-[#a78bfa]" />
+                        <span>Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem asChild className="hover:bg-[#2c2c3a] cursor-pointer">
+                    <Link to="/change-password" className="flex items-center w-full">
+                      <Settings className="mr-2 h-4 w-4 text-[#a78bfa]" />
+                      <span>Change Password</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-[#2c2c3a]" />
                   <DropdownMenuItem
@@ -164,16 +180,30 @@ const Navbar = ({
           >
             {effectiveIsAuthenticated ? (
               <>
+                {!isTeacher && (
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 
+          text-[#e9e7ff] rounded-lg 
+          bg-white/5 hover:bg-[#1c1c27] 
+          transition shadow"
+                  >
+                    <User className="h-4 w-4 text-[#a78bfa]" />
+                    <span>Profile</span>
+                  </Link>
+                )}
+
                 <Link
-                  to="/profile"
+                  to="/change-password"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="w-full flex items-center gap-2 px-4 py-2 
           text-[#e9e7ff] rounded-lg 
           bg-white/5 hover:bg-[#1c1c27] 
           transition shadow"
                 >
-                  <User className="h-4 w-4 text-[#a78bfa]" />
-                  <span>Profile</span>
+                  <Settings className="h-4 w-4 text-[#a78bfa]" />
+                  <span>Change Password</span>
                 </Link>
 
                 <button

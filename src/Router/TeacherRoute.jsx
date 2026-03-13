@@ -1,32 +1,30 @@
 import { Navigate, useLocation } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-const AdminRoute = ({ children }) => {
+const TeacherRoute = ({ children }) => {
   const isLoggedIn = window.localStorage.getItem("isLogedIn");
-  const isAdmin = window.localStorage.getItem("adminUser") !== null;
-  const isStudent = window.localStorage.getItem("studentUser") !== null;
   const isTeacher = window.localStorage.getItem("teacherUser") !== null;
+  const isStudent = window.localStorage.getItem("studentUser") !== null;
+  const isAdmin = window.localStorage.getItem("adminUser") !== null;
   const location = useLocation();
 
-  // Check if the user is logged in and has an admin role
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  if (isAdmin) {
+  if (isTeacher) {
     return children;
   }
 
-  // If user is a student, redirect to the student path
   if (isStudent) {
     return <Navigate to="/student" state={{ from: location }} />;
   }
 
-  if (isTeacher) {
-    return <Navigate to="/teacher" state={{ from: location }} />;
+  if (isAdmin) {
+    return <Navigate to="/admin" state={{ from: location }} />;
   }
 
   return <Navigate to="/login" state={{ from: location }} />;
 };
 
-export default AdminRoute;
+export default TeacherRoute;

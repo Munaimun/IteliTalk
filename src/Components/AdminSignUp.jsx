@@ -32,7 +32,7 @@ import {
 import { Separator } from "./ui/separator";
 import axiosApiInstance from "../interceptor";
 
-const API_URL = "api/v1";
+const API_URL = "/api/v1";
 
 const AdminSignUp = () => {
   const navigate = useNavigate();
@@ -164,7 +164,7 @@ const AdminSignUp = () => {
 
     try {
       const response = await axiosApiInstance.post(
-        `${API_URL}/signup`,
+        `${API_URL}/admin/signup`,
         formData,
         {
           headers: {

@@ -5,6 +5,7 @@ const PrivateRoute = ({ children }) => {
   const isLoggedIn = window.localStorage.getItem("isLogedIn");
   const isStudent = window.localStorage.getItem("studentUser") !== null;
   const isAdmin = window.localStorage.getItem("adminUser") !== null;
+  const isTeacher = window.localStorage.getItem("teacherUser") !== null;
   const location = useLocation();
 
   // Check if the user is logged in and has a student role
@@ -14,6 +15,10 @@ const PrivateRoute = ({ children }) => {
 
   if (isStudent) {
     return children;
+  }
+
+  if (isTeacher) {
+    return <Navigate to="/teacher" state={{ from: location }} />;
   }
 
   // If user is an admin, redirect to the admin path

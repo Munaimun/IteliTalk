@@ -15,7 +15,7 @@ const Input = ({ className, ...props }) => (
   <input className={`w-full p-3 rounded-lg focus:outline-none focus:ring-2 ${className}`} {...props} />
 );
 
-const API_URL = "api/v1";
+const API_URL = "/api/v1";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);

@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import axiosApiInstance from "../interceptor";
 
-const API_URL = "api/v1";
+const API_URL = "/api/v1";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -39,6 +39,9 @@ const LoginPage = () => {
 
       localStorage.setItem("token", token);
       localStorage.setItem("isLogedIn", true);
+      localStorage.removeItem("studentUser");
+      localStorage.removeItem("adminUser");
+      localStorage.removeItem("teacherUser");
 
       if (user.role === "Student") {
         localStorage.setItem("studentUser", JSON.stringify(user));
@@ -48,6 +51,10 @@ const LoginPage = () => {
         localStorage.setItem("adminUser", JSON.stringify(user));
         navigate("/admin");
         toast("Admin Dashboard");
+      } else if (user.role === "Teacher") {
+        localStorage.setItem("teacherUser", JSON.stringify(user));
+        navigate("/teacher");
+        toast("Teacher Dashboard");
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {

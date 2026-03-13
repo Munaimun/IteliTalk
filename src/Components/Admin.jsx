@@ -3,6 +3,7 @@ import {
   ChevronDown,
   ChevronUp,
   Eye,
+  FileUp,
   Home,
   LogOut,
   Menu,
@@ -54,7 +55,7 @@ import {
 } from "./ui/table";
 import axiosApiInstance from "../interceptor";
 
-const API_URL = "api/v1";
+const API_URL = "/api/v1";
 
 const Admin = () => {
   // Consolidated state management
@@ -192,15 +193,15 @@ const Admin = () => {
     setData((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      const response = await axiosApiInstance.get(`${API_URL}/user`, {
+      const response = await axiosApiInstance.get(`${API_URL}/admin/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (response.data.success && Array.isArray(response.data.user)) {
-        const students = response.data.user.filter(
+      if (response.data.success && Array.isArray(response.data.data)) {
+        const students = response.data.data.filter(
           (user) => user.role === "Student"
         );
-        const adminList = response.data.user.filter(
+        const adminList = response.data.data.filter(
           (user) => user.role === "Admin"
         );
 
@@ -728,7 +729,18 @@ const Admin = () => {
           onClick={() => navigate("/signupadmin")}
         >
           <Plus className="h-5 w-5 flex-shrink-0" />
-          {ui.sidebarOpen && <span>Add Admin</span>}
+          {ui.sidebarOpen && <span>Add Teacher</span>}
+        </Button>
+
+        <Button
+          variant="default"
+          className={`w-full justify-start gap-3 h-11 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 ${
+            !ui.sidebarOpen ? "px-3" : "px-4"
+          }`}
+          onClick={() => navigate("/admin/upload")}
+        >
+          <FileUp className="h-5 w-5 flex-shrink-0" />
+          {ui.sidebarOpen && <span>Upload PDF</span>}
         </Button>
 
         <Separator className="my-2 bg-gray-200/50 dark:bg-gray-800/50" />
